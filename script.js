@@ -6,18 +6,10 @@ addEmployeesBtn.addEventListener("click", () => {
   let continueChoice = true;
 
   while (continueChoice == true) {
-    // Collect user input
-    let firstName = prompt("What is the first name?");
-    let lastName = prompt("What is the last name?");
-    let salary = prompt("What is their salary?");
-    // Create employee object and push it to the array
-    console.log(employeesArray);
-    employeesArray.push({
-      firstName: firstName,
-      lastName: lastName,
-      salary: salary
-    });
-    continuechoice = false;
+    const newEmployee = {firstName : prompt("What is the first name?"), lastName : prompt("What is the last name?"), salary: Number(prompt("What is their salary?"))};
+    
+    employeesArray.push(newEmployee);
+    console.log(employeesArray.length);
     // Ask if the user wants to enter another employee
     continueChoice = confirm("Would you like to enter another employee?");
     console.log(continueChoice);
@@ -26,23 +18,36 @@ addEmployeesBtn.addEventListener("click", () => {
 });
 
 // Collect employee data
-const collectEmployees = function (employeesArray) {
-  
-
-  // Once the user is done, display the employees
-  displayEmployees(employeesArray);
+const collectEmployees = function (){
+  return employeesArray;
 };
 
 // Display the list of employees
 
 // Display the average salary
 const displayAverageSalary = function (employeesArray) {
-  // TODO: Calculate and display the average salary
-  let salary = 0;
-  for(let i = 0; i < employees.length; i++) {
-    salaryAvg = salaryAvg + employees[2];
+  // Initialize total salary
+  let totalSalary = 0;
+
+  // Loop through each employee and accumulate their salaries
+  for (let i = 0; i < employeesArray.length; i++) {
+    const salary = Number(employeesArray[i].salary);
+
+    // Validate salary to ensure it is a valid number
+    if (!isNaN(salary)) {
+      totalSalary += salary;
+    } else {
+      console.error(`Invalid salary for employee: ${employeesArray[i].firstName} ${employeesArray[i].lastName}`);
+    }
   }
-  console.log(salaryAvg);
+  // Calculate the average salary
+  const averageSalary = employeesArray.length > 0 ? totalSalary / employeesArray.length : 0;
+
+  // Display the average salary
+  console.log(`The average employee salary between our ${employeesArray.length} employee(s) is ${averageSalary.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })}`);
 };
 
 // Select a random employee
